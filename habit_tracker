@@ -1,0 +1,22 @@
+# habit_tracker.py
+
+import datetime
+
+def log_habit(habit_name):
+    with open("habits.txt", "a") as file:
+        file.write(f"{habit_name},{datetime.date.today()}\n")
+
+def check_streak(habit_name):
+    streak = 0
+    with open("habits.txt", "r") as file:
+        logs = [line.strip().split(",") for line in file]
+    for log in logs[::-1]:
+        if log[0] == habit_name and log[1] == str(datetime.date.today() - datetime.timedelta(days=streak)):
+            streak += 1
+        else:
+            break
+    return streak
+
+# Sample usage
+log_habit("Exercise")
+print(f"Exercise streak: {check_streak('Exercise')} days")
